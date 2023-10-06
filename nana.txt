@@ -1,0 +1,323 @@
+The code penguins %>% group_by(island) %>% drop_na() %>% summarise(mean_bill_length_mm = mean(bill_length_mm)) performs the following steps:
+
+The group_by() function groups the penguins data frame by island. This means that the penguins data frame will be split into three groups, one for each island.
+The drop_na() function removes any rows from the penguins data frame that contain missing values for the bill_length_mm variable. This means that only rows with complete data for bill_length_mm will be used in the subsequent steps.
+The summarize() function calculates the mean bill length for each island group. The mean bill length is calculated by taking the average of the bill_length_mm values in each island group.
+The output of the code is a new data frame that contains the following columns:
+
+island: The island where the penguins were observed.
+mean_bill_length_mm: The mean bill length for the island group.
+The new data frame will have one row for each island group. The row for each island group will contain the mean bill length for the penguins that were observed on that island.
+
+Here is an explanation of the code:
+
+The penguins object is a data frame that contains data on penguins. The data frame contains information on the island where the penguins were observed, the species of penguin, the bill length, and other variables.
+The group_by() function takes a data frame as input and returns a new data frame that is grouped by the specified variables. In this case, the group_by() function is grouping the penguins data frame by island.
+The drop_na() function takes a data frame as input and returns a new data frame that has had any rows with missing values removed. In this case, the drop_na() function is removing any rows from the penguins data frame that contain missing values for the bill_length_mm variable.
+The summarize() function takes a data frame as input and returns a new data frame with summary statistics for the specified variables. In this case, the summarize() function is calculating the mean bill length for each island group.
+The code penguins %>% group_by(island) %>% drop_na() %>% summarise(mean_bill_length_mm = mean(bill_length_mm)) is a useful way to summarize the mean bill length for penguins by island. This information can be used to compare the mean bill length of penguins across different islands.
+
+
+
+
+
+
+
+> library(tidyverse)
+── Attaching core tidyverse packages ────────────────────────────────────── tidyverse 2.0.0 ──✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ──────────────────────────────────────────────────────── tidyverse_conflicts() ──✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+Warning message:
+package 'dplyr' was built under R version 4.3.1 
+> library(skimr)
+Warning message:
+package 'skimr' was built under R version 4.3.1
+> library(janitor)
+
+Attaching package: 'janitor'
+
+The following objects are masked from 'package:stats':
+
+    chisq.test, fisher.test
+
+Warning message:
+package 'janitor' was built under R version 4.3.1
+> hotel_bookings <- read_csv("hotel_bookings.csv")
+
+
+Rows: 119390 Columns: 32
+── Column specification ──────────────────────────────────────────────────────────────────────Delimiter: ","
+chr  (13): hotel, arrival_date_month, meal, country, market_segment, distrib...
+dbl  (18): is_canceled, lead_time, arrival_date_year, arrival_date_week_numb...
+date  (1): reservation_status_date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+> head(hotel_bookings)
+# A tibble: 6 × 32
+  hotel        is_canceled lead_time arrival_date_year arrival_date_month
+  <chr>              <dbl>     <dbl>             <dbl> <chr>
+1 Resort Hotel           0       342              2015 July
+2 Resort Hotel           0       737              2015 July
+3 Resort Hotel           0         7              2015 July
+4 Resort Hotel           0        13              2015 July
+5 Resort Hotel           0        14              2015 July
+6 Resort Hotel           0        14              2015 July
+# ℹ 27 more variables: arrival_date_week_number <dbl>,
+#   arrival_date_day_of_month <dbl>, stays_in_weekend_nights <dbl>,
+#   stays_in_week_nights <dbl>, adults <dbl>, children <dbl>, babies <dbl>,
+#   meal <chr>, country <chr>, market_segment <chr>,
+#   distribution_channel <chr>, is_repeated_guest <dbl>,
+#   previous_cancellations <dbl>, previous_bookings_not_canceled <dbl>,
+#   reserved_room_type <chr>, assigned_room_type <chr>, …
+> str(hotel_bookings)
+spc_tbl_ [119,390 × 32] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ hotel                         : chr [1:119390] "Resort Hotel" "Resort Hotel" "Resort Hotel" "Resort Hotel" ...
+ $ is_canceled                   : num [1:119390] 0 0 0 0 0 0 0 0 1 1 ...
+ $ lead_time                     : num [1:119390] 342 737 7 13 14 14 0 9 85 75 ...
+ $ arrival_date_year             : num [1:119390] 2015 2015 2015 2015 2015 ...
+ $ arrival_date_month            : chr [1:119390] "July" "July" "July" "July" ...
+ $ arrival_date_week_number      : num [1:119390] 27 27 27 27 27 27 27 27 27 27 ...
+ $ arrival_date_day_of_month     : num [1:119390] 1 1 1 1 1 1 1 1 1 1 ...
+ $ stays_in_weekend_nights       : num [1:119390] 0 0 0 0 0 0 0 0 0 0 ...
+ $ stays_in_week_nights          : num [1:119390] 0 0 1 1 2 2 2 2 3 3 ...
+ $ adults                        : num [1:119390] 2 2 1 1 2 2 2 2 2 2 ...
+ $ children                      : num [1:119390] 0 0 0 0 0 0 0 0 0 0 ...
+ $ babies                        : num [1:119390] 0 0 0 0 0 0 0 0 0 0 ...
+ $ meal                          : chr [1:119390] "BB" "BB" "BB" "BB" ...
+ $ country                       : chr [1:119390] "PRT" "PRT" "GBR" "GBR" ...
+ $ market_segment                : chr [1:119390] "Direct" "Direct" "Direct" "Corporate" ...
+ $ distribution_channel          : chr [1:119390] "Direct" "Direct" "Direct" "Corporate" ...
+ $ is_repeated_guest             : num [1:119390] 0 0 0 0 0 0 0 0 0 0 ...
+ $ previous_cancellations        : num [1:119390] 0 0 0 0 0 0 0 0 0 0 ...
+ $ previous_bookings_not_canceled: num [1:119390] 0 0 0 0 0 0 0 0 0 0 ...
+ $ reserved_room_type            : chr [1:119390] "C" "C" "A" "A" ...
+ $ assigned_room_type            : chr [1:119390] "C" "C" "C" "A" ...
+ $ booking_changes               : num [1:119390] 3 4 0 0 0 0 0 0 0 0 ...
+ $ deposit_type                  : chr [1:119390] "No Deposit" "No Deposit" "No Deposit" "No Deposit" ...
+ $ agent                         : chr [1:119390] "NULL" "NULL" "NULL" "304" ...
+ $ company                       : chr [1:119390] "NULL" "NULL" "NULL" "NULL" ...
+ $ days_in_waiting_list          : num [1:119390] 0 0 0 0 0 0 0 0 0 0 ...
+ $ customer_type                 : chr [1:119390] "Transient" "Transient" "Transient" "Transient" ...
+ $ adr                           : num [1:119390] 0 0 75 75 98 ...
+ $ required_car_parking_spaces   : num [1:119390] 0 0 0 0 0 0 0 0 0 0 ...
+ $ total_of_special_requests     : num [1:119390] 0 0 0 0 1 1 0 1 1 0 ...
+ $ reservation_status            : chr [1:119390] "Check-Out" "Check-Out" "Check-Out" "Check-Out" ...
+ $ reservation_status_date       : Date[1:119390], format: "2015-07-01" "2015-07-01" ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   hotel = col_character(),
+  ..   is_canceled = col_double(),
+  ..   lead_time = col_double(),
+  ..   arrival_date_year = col_double(),
+  ..   arrival_date_month = col_character(),
+  ..   arrival_date_week_number = col_double(),
+  ..   arrival_date_day_of_month = col_double(),
+  ..   stays_in_weekend_nights = col_double(),
+  ..   stays_in_week_nights = col_double(),
+  ..   adults = col_double(),
+  ..   children = col_double(),
+  ..   babies = col_double(),
+  ..   meal = col_character(),
+  ..   country = col_character(),
+  ..   market_segment = col_character(),
+  ..   distribution_channel = col_character(),
+  ..   is_repeated_guest = col_double(),
+  ..   previous_cancellations = col_double(),
+  ..   previous_bookings_not_canceled = col_double(),
+  ..   reserved_room_type = col_character(),
+  ..   assigned_room_type = col_character(),
+  ..   booking_changes = col_double(),
+  ..   deposit_type = col_character(),
+  ..   agent = col_character(),
+  ..   company = col_character(),
+  ..   days_in_waiting_list = col_double(),
+  ..   customer_type = col_character(),
+  ..   adr = col_double(),
+  ..   required_car_parking_spaces = col_double(),
+  ..   total_of_special_requests = col_double(),
+  ..   reservation_status = col_character(),
+  ..   reservation_status_date = col_date(format = "")
+  .. )
+ - attr(*, "problems")=<externalptr>
+> glimpse(hotel_bookings)
+Rows: 119,390
+Columns: 32
+$ hotel                          <chr> "Resort Hotel", "Resort Hotel", "Resort…
+$ is_canceled                    <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, …
+$ lead_time                      <dbl> 342, 737, 7, 13, 14, 14, 0, 9, 85, 75, …
+$ arrival_date_year              <dbl> 2015, 2015, 2015, 2015, 2015, 2015, 201…
+$ arrival_date_month             <chr> "July", "July", "July", "July", "July",…
+$ arrival_date_week_number       <dbl> 27, 27, 27, 27, 27, 27, 27, 27, 27, 27,…
+$ arrival_date_day_of_month      <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ stays_in_weekend_nights        <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ stays_in_week_nights           <dbl> 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, …
+$ adults                         <dbl> 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
+$ children                       <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ babies                         <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ meal                           <chr> "BB", "BB", "BB", "BB", "BB", "BB", "BB…
+$ country                        <chr> "PRT", "PRT", "GBR", "GBR", "GBR", "GBR…
+$ market_segment                 <chr> "Direct", "Direct", "Direct", "Corporat…
+$ distribution_channel           <chr> "Direct", "Direct", "Direct", "Corporat…
+$ is_repeated_guest              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ previous_cancellations         <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ previous_bookings_not_canceled <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ reserved_room_type             <chr> "C", "C", "A", "A", "A", "A", "C", "C",…
+$ assigned_room_type             <chr> "C", "C", "C", "A", "A", "A", "C", "C",…
+$ booking_changes                <dbl> 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ deposit_type                   <chr> "No Deposit", "No Deposit", "No Deposit…
+$ agent                          <chr> "NULL", "NULL", "NULL", "304", "240", "…
+$ company                        <chr> "NULL", "NULL", "NULL", "NULL", "NULL",…
+$ days_in_waiting_list           <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ customer_type                  <chr> "Transient", "Transient", "Transient", …
+$ adr                            <dbl> 0.00, 0.00, 75.00, 75.00, 98.00, 98.00,…
+$ required_car_parking_spaces    <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ total_of_special_requests      <dbl> 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 3, …
+$ reservation_status             <chr> "Check-Out", "Check-Out", "Check-Out", …
+$ reservation_status_date        <date> 2015-07-01, 2015-07-01, 2015-07-02, 20…
+> colnames(hotel_bookings)
+ [1] "hotel"                          "is_canceled"
+ [3] "lead_time"                      "arrival_date_year"             
+ [5] "arrival_date_month"             "arrival_date_week_number"
+ [7] "arrival_date_day_of_month"      "stays_in_weekend_nights"
+ [9] "stays_in_week_nights"           "adults"
+[11] "children"                       "babies"
+[13] "meal"                           "country"
+[15] "market_segment"                 "distribution_channel"
+[17] "is_repeated_guest"              "previous_cancellations"
+[19] "previous_bookings_not_canceled" "reserved_room_type"
+[21] "assigned_room_type"             "booking_changes"
+[23] "deposit_type"                   "agent"
+[25] "company"                        "days_in_waiting_list"
+[27] "customer_type"                  "adr"
+[29] "required_car_parking_spaces"    "total_of_special_requests"     
+[31] "reservation_status"             "reservation_status_date"
+> arrange(hotel_bookings, lead_time)
+# A tibble: 119,390 × 32
+   hotel        is_canceled lead_time arrival_date_year arrival_date_month
+   <chr>              <dbl>     <dbl>             <dbl> <chr>
+ 1 Resort Hotel           0         0              2015 July
+ 2 Resort Hotel           0         0              2015 July
+ 3 Resort Hotel           0         0              2015 July
+ 4 Resort Hotel           0         0              2015 July
+ 5 Resort Hotel           0         0              2015 July
+ 6 Resort Hotel           0         0              2015 July
+ 7 Resort Hotel           0         0              2015 July
+ 8 Resort Hotel           0         0              2015 July
+ 9 Resort Hotel           0         0              2015 July              
+10 Resort Hotel           0         0              2015 July
+# ℹ 119,380 more rows
+# ℹ 27 more variables: arrival_date_week_number <dbl>,
+#   arrival_date_day_of_month <dbl>, stays_in_weekend_nights <dbl>,
+#   stays_in_week_nights <dbl>, adults <dbl>, children <dbl>, babies <dbl>,
+#   meal <chr>, country <chr>, market_segment <chr>,
+#   distribution_channel <chr>, is_repeated_guest <dbl>,
+#   previous_cancellations <dbl>, previous_bookings_not_canceled <dbl>, …
+# ℹ Use `print(n = ...)` to see more rows
+> arrange(hotel_bookings, desc(lead_time))
+# A tibble: 119,390 × 32
+   hotel        is_canceled lead_time arrival_date_year arrival_date_month
+   <chr>              <dbl>     <dbl>             <dbl> <chr>
+ 1 Resort Hotel           0       737              2015 July
+ 2 Resort Hotel           0       709              2016 February          
+ 3 City Hotel             1       629              2017 March
+ 4 City Hotel             1       629              2017 March
+ 5 City Hotel             1       629              2017 March
+ 6 City Hotel             1       629              2017 March
+ 7 City Hotel             1       629              2017 March
+ 8 City Hotel             1       629              2017 March
+ 9 City Hotel             1       629              2017 March
+10 City Hotel             1       629              2017 March
+# ℹ 119,380 more rows
+# ℹ 27 more variables: arrival_date_week_number <dbl>,
+#   arrival_date_day_of_month <dbl>, stays_in_weekend_nights <dbl>,
+#   stays_in_week_nights <dbl>, adults <dbl>, children <dbl>, babies <dbl>,
+#   meal <chr>, country <chr>, market_segment <chr>,
+#   distribution_channel <chr>, is_repeated_guest <dbl>,
+#   previous_cancellations <dbl>, previous_bookings_not_canceled <dbl>, …
+# ℹ Use `print(n = ...)` to see more rows
+> head(hotel_bookings)
+# A tibble: 6 × 32
+  hotel        is_canceled lead_time arrival_date_year arrival_date_month
+  <chr>              <dbl>     <dbl>             <dbl> <chr>
+1 Resort Hotel           0       342              2015 July
+2 Resort Hotel           0       737              2015 July
+3 Resort Hotel           0         7              2015 July
+4 Resort Hotel           0        13              2015 July
+5 Resort Hotel           0        14              2015 July
+6 Resort Hotel           0        14              2015 July
+# ℹ 27 more variables: arrival_date_week_number <dbl>,
+#   arrival_date_day_of_month <dbl>, stays_in_weekend_nights <dbl>,
+#   stays_in_week_nights <dbl>, adults <dbl>, children <dbl>, babies <dbl>,
+#   meal <chr>, country <chr>, market_segment <chr>,
+#   distribution_channel <chr>, is_repeated_guest <dbl>,
+#   previous_cancellations <dbl>, previous_bookings_not_canceled <dbl>,
+#   reserved_room_type <chr>, assigned_room_type <chr>, …
+> hotel_bookings_v2 <-
++   arrange(hotel_bookings, desc(lead_time))
+> head(hotel_bookings_v2)
+# A tibble: 6 × 32
+  hotel        is_canceled lead_time arrival_date_year arrival_date_month
+  <chr>              <dbl>     <dbl>             <dbl> <chr>
+1 Resort Hotel           0       737              2015 July
+2 Resort Hotel           0       709              2016 February
+3 City Hotel             1       629              2017 March
+4 City Hotel             1       629              2017 March
+5 City Hotel             1       629              2017 March
+6 City Hotel             1       629              2017 March
+# ℹ 27 more variables: arrival_date_week_number <dbl>,
+#   arrival_date_day_of_month <dbl>, stays_in_weekend_nights <dbl>,
+#   stays_in_week_nights <dbl>, adults <dbl>, children <dbl>, babies <dbl>,
+#   meal <chr>, country <chr>, market_segment <chr>,
+#   distribution_channel <chr>, is_repeated_guest <dbl>,
+#   previous_cancellations <dbl>, previous_bookings_not_canceled <dbl>,
+#   reserved_room_type <chr>, assigned_room_type <chr>, …
+> max(hotel_bookings$lead_time)
+[1] 737
+> min(hotel_bookings$lead_time)
+[1] 0
+> min(lead_time)
+Error: object 'lead_time' not found
+> mean(hotel_bookings$lead_time)
+[1] 104.0114
+> mean(hotel_bookings_v2$lead_time)
+[1] 104.0114
+> hotel_bookings_city <- 
++   filter(hotel_bookings, hotel_bookings$hotel=="City Hotel")
+> head(hotel_bookings_city)
+# A tibble: 6 × 32
+  hotel      is_canceled lead_time arrival_date_year arrival_date_month
+  <chr>            <dbl>     <dbl>             <dbl> <chr>
+1 City Hotel           0         6              2015 July
+2 City Hotel           1        88              2015 July
+3 City Hotel           1        65              2015 July
+4 City Hotel           1        92              2015 July
+5 City Hotel           1       100              2015 July              
+6 City Hotel           1        79              2015 July
+# ℹ 27 more variables: arrival_date_week_number <dbl>,
+#   arrival_date_day_of_month <dbl>, stays_in_weekend_nights <dbl>,
+#   stays_in_week_nights <dbl>, adults <dbl>, children <dbl>, babies <dbl>,
+#   meal <chr>, country <chr>, market_segment <chr>,
+#   distribution_channel <chr>, is_repeated_guest <dbl>,
+#   previous_cancellations <dbl>, previous_bookings_not_canceled <dbl>,
+#   reserved_room_type <chr>, assigned_room_type <chr>, …
+> mean(hotel_bookings_city$lead_time)
+[1] 109.7357
+> hotel_summary <- 
++   hotel_bookings %>%
++   group_by(hotel) %>%
++   summarise(average_lead_time=mean(lead_time),
++             min_lead_time=min(lead_time),
++             max_lead_time=max(lead_time))
+> head(hotel_summary)
+# A tibble: 2 × 4
+  hotel        average_lead_time min_lead_time max_lead_time
+  <chr>                    <dbl>         <dbl>         <dbl>
+1 City Hotel               110.              0           629
+2 Resort Hotel              92.7             0           737
+> 
