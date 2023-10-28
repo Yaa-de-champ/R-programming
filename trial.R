@@ -1,8 +1,8 @@
-library(tidyverse)
-library(skimr)
-library(janitor)
+# library(tidyverse)
+# library(skimr)
+# library(janitor)
 
-bookings_df <- read_csv("hotel_bookings.csv")
+# bookings_df <- read_csv("hotel_bookings.csv")
 
 # head(bookings_df) #nolint
 
@@ -36,39 +36,41 @@ bookings_df <- read_csv("hotel_bookings.csv")
 # view(quartet)        #nolint #nolint
 
 
-quartet %>% group_by(set) %>% summarize(mean(x), sd(x), mean(y), sd(y),)
+# quartet %>% group_by(set) %>% summarize(mean(x), sd(x), mean(y), sd(y),)
 
-ggplot(quartet, aes(x,y)) + geom_point() + geom_smooth(method=lm,se=FALSE) + facet_wrap(-set) #nolint
+# ggplot(quartet, aes(x,y)) + geom_point() + geom_smooth(method=lm,se=FALSE) + facet_wrap(-set) #nolint
 
 
-# from chatgpt
-# Load necessary packages
-library(dplyr)
-library(ggplot2)
-library(tidyverse)
+# # from chatgpt
+# # Load necessary packages
+# library(dplyr)
+# library(ggplot2)
+# library(tidyverse)
 
-# Load the data
+# # Load the data
 data(quartet)
 
-# Summarize the data
-quartet_summary <- quartet %>%
-    group_by(set) %>%
-    summarize(mean_x = mean(x),
-            sd_x = sd(x),
-            mean_y = mean(y),
-            sd_y = sd(y))
+# # Summarize the data
+# quartet_summary <- quartet %>%
+#     group_by(set) %>%
+#     summarize(mean_x = mean(x),
+#             sd_x = sd(x),
+#             mean_y = mean(y),
+#             sd_y = sd(y))
 
-# Create a scatter plot with regression lines and facet by 'set'
-ggplot(quartet, aes(x, y)) +
-        geom_point() +
-    geom_smooth(method = "lm", se = FALSE) +
-    facet_wrap(~set)
+# # Create a scatter plot with regression lines and facet by 'set'
+# ggplot(quartet, aes(x, y)) +
+#         geom_point() +
+#     geom_smooth(method = "lm", se = FALSE) +
+#     facet_wrap(~set)
 
-library(datasauRus)
-ggplot(datasaurus_dozen, aes(x=x, y=y, colour=dataset)) +geom_point() + theme_void() + theme(legend.position ="none" ) + facet_wrap(~dataset, ncol=3) #nolint
+# library(datasauRus)
+# ggplot(datasaurus_dozen, aes(x=x, y=y, colour=dataset)) +geom_point() + theme_void() + theme(legend.position ="none" ) + facet_wrap(~dataset, ncol=3) #nolint
 
-png("plot.png", width = 800, height = 600)  # Adjust width and height as needed
-# Your plotting code here
-dev.off()  # Close the PNG device
+# png("plot.png", width = 800, height = 600)  # Adjust width and height as needed
+# # Your plotting code here
+# dev.off()  # Close the PNG device
 
-mean(hotel_bookings$lead_time)
+# mean(hotel_bookings$lead_time)
+
+
