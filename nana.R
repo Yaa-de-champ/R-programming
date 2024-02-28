@@ -155,7 +155,153 @@ unite(employee, 'name', first_name, last_name, sep = ' ') #nolint
 
 print(employee)
 
+hotel_bookings <- read.csv("~/GitHub/R-programming/hotel_bookings.csv")
+
 library('palmerpenguins') #nolint
 view('penguins') #nolint
 
 penguins %>% mutate(body_mass_kg = body_mass_g/1000, flipper_length_m=flipper_length_mm/1000) #nolint #nolint
+
+
+
+# Min: The minimum value.
+# 1st Qu: The value of the first quartile (25th percentile).
+# Median: The median value.
+## Mean: The mean value.
+# 3rd Qu: The value of the third quartile (75th percentile).
+# Max: The maximum value.
+
+#32 rows and 11 columns
+
+
+'I am well'
+
+for (x in 1:10)
+  print(x)
+
+a = 'This is Accra'
+print(a)
+
+name <- 'John'
+age <- 40
+
+print(name)
+print(age)
+
+text <- 'awesome'
+paste('R is', text)
+
+text1 <- 'R is'
+text2 <- 'awesome'
+paste(text1, text2)
+
+print(class('This is a string'))
+
+a <- 10.5
+class(a)
+
+b <- 1000L
+class(b)
+
+d <- 9i + 3
+class(d)
+
+e <- 'R is exciting'
+class(e)
+
+f <- TRUE
+class(f)
+
+list <- c(1, 5, -1, 10)
+print(min(list))
+print(max(list))
+
+x = sqrt(9)
+print(x)
+
+print(ceiling(1.4))
+print(floor(1.4))
+
+str <- 'This is R programming session. We are learning the basics of R for the applications '
+cat(str)
+
+a <- 23
+b <- 54
+
+print(a/b)
+print(a-b)
+print(a*b)
+print(a^b)
+print(a+b)
+
+print(31*78)
+
+print(697/41)
+
+x <- 39
+y <- 22
+
+z = x-y
+
+print(z)
+
+b <- sqrt(2345) 
+
+m <- print(b)
+
+print(log2(m))
+
+print(m)
+
+x <- 1L
+y <- 2
+
+a <- as.numeric(x)
+b <- as.integer(y)
+
+print(x)
+print(y)
+
+class(a)
+class(b)
+
+a <- 33
+b <- 33
+
+if (b > a) {
+  print('b is greater than a')
+} else if (a == b) {
+  print('a and b are equal')
+}
+
+a <- 200
+b <- 33
+
+if (b > a) {
+  print('b is greater than a')
+} else if (a == b) {
+  print(' a and b are equal ')
+} else {
+  print('a is greater than b')
+}
+
+x <- 41
+
+if (x >10) {
+  print('Above ten')
+  if (x > 20) {
+    print('and also above 20')
+  } else {
+    print('but not above 20')
+  }
+} else {
+  print('below 10')
+}
+
+data()
+head()
+tail()
+dim()
+names()
+nrow()
+ncol()
